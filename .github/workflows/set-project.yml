@@ -1,0 +1,52 @@
+name: Auto set project
+
+on:
+  workflow_call:
+    inputs:
+      project-number:
+        description: 'The project-number of https://github.com/orgs/<owner>/projects/<project-number>'
+        required: true
+        type: number
+      project-owner:
+        description: 'User or Organization name of project owner.'
+        required: false
+        default: ${{ github.repository_owner }}
+        type: string
+      field-names:
+        description: 'Comma separated field names will update it after add issue to project. see: https://github.com/austenstone/project-update'
+        required: false
+        type: string
+      field-values:
+        description: 'Comma separated values will update it after add issue to project. see: https://github.com/austenstone/project-update'
+        required: false
+        type: string
+    secrets:
+      github-token:
+        description: 'Personal access token to use to update project. Requires `repo`, `org:read` and `org:write` permissions.'
+        required: true
+
+jobs:
+  set-project:
+    name: Set project
+    runs-on: ubuntu-latest
+    steps:
+      - name: Add to project
+        uses: monry/actions-add-issue-to-project@v1
+        id: add-to-project
+        with:
+          github-token: ${{ secrets.github-token }}
+          project-owner: ${{ inputs.project-owner }}
+          project-number: ${{ inputs.project-number }}
+          issue-id: ${{ github.event.issue.node_id }}
+
+      - name: Update fields
+        if: inputs.field-names
+        uses: austenstone/project-update@4907e91605c4dce3b83aa49301b6a1324d22cbfd
+        with:
+          github-token: ${{ secrets.github-token }}
+          user: ${{ inputs.project-owner }}
+          organization: ${{ inputs.project-owner }}
+          project-number: ${{ inputs.project-number }}
+          item-id: ${{ steps.add-to-project.outputs.added-project-item-id }}
+          field-names: ${{ inputs.field-names }}
+          field-values: ${{ inputs.field-values }}
