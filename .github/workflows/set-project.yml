@@ -7,8 +7,12 @@ on:
         description: 'The project-number of https://github.com/orgs/<owner>/projects/<project-number>'
         required: true
         type: number
-      project-owner:
-        description: 'User or Organization name of project owner.'
+      project-owner-user:
+        description: 'User name of project owner.'
+        required: false
+        type: string
+      project-owner-org:
+        description: 'Organization name of project owner.'
         required: false
         default: ${{ github.repository_owner }}
         type: string
@@ -35,7 +39,7 @@ jobs:
         id: add-to-project
         with:
           github-token: ${{ secrets.github-token }}
-          project-owner: ${{ inputs.project-owner }}
+          project-owner: ${{ inputs.project-owner-user || inputs.project-owner-org }}
           project-number: ${{ inputs.project-number }}
           issue-id: ${{ github.event.issue.node_id }}
 
@@ -44,8 +48,8 @@ jobs:
         uses: austenstone/project-update@4907e91605c4dce3b83aa49301b6a1324d22cbfd
         with:
           github-token: ${{ secrets.github-token }}
-          user: ${{ inputs.project-owner }}
-          organization: ${{ inputs.project-owner }}
+          user: ${{ inputs.project-owner-user }}
+          organization: ${{ inputs.project-owner-org }}
           project-number: ${{ inputs.project-number }}
           item-id: ${{ steps.add-to-project.outputs.added-project-item-id }}
           field-names: ${{ inputs.field-names }}
