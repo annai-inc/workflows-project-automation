@@ -24,6 +24,9 @@ on:
         description: 'Comma separated values will update it after add issue to project. see: <https://github.com/austenstone/project-update>'
         required: false
         type: string
+      add-labels:
+        description: 'Labels to add to an issue, seperated by commas. see: <https://github.com/andymckay/labeler>'
+        required: false
     secrets:
       github-token:
         description: 'Personal access token to use to update project. Requires `repo`, `org:read` and `org:write` permissions.'
@@ -54,3 +57,10 @@ jobs:
           item-id: ${{ steps.add-to-project.outputs.added-project-item-id }}
           field-names: ${{ inputs.field-names }}
           field-values: ${{ inputs.field-values }}
+
+      - name: Add labels
+        if: inputs.add-labels
+        uses: andymckay/labeler@e6c4322d0397f3240f0e7e30a33b5c5df2d39e90
+        with:
+          add-labels: ${{ inputs.add-labels }}
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
