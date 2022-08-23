@@ -17,15 +17,15 @@ on:
         default: ${{ github.repository_owner }}
         type: string
       field-names:
-        description: 'Comma separated field names will update it after add issue to project. see: <https://github.com/austenstone/project-update>'
+        description: 'Comma separated field names will update it after add issue to project.'
         required: false
         type: string
       field-values:
-        description: 'Comma separated values will update it after add issue to project. see: <https://github.com/austenstone/project-update>'
+        description: 'Comma separated values will update it after add issue to project.'
         required: false
         type: string
       add-labels:
-        description: 'Labels to add to an issue, seperated by commas. see: <https://github.com/andymckay/labeler>'
+        description: 'Labels to add to an issue, seperated by commas.'
         required: false
         type: string
     secrets:
