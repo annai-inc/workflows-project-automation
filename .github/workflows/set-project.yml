@@ -17,15 +17,15 @@ on:
         default: ${{ github.repository_owner }}
         type: string
       field-names:
-        description: 'Comma separated field names will update it after add issue to project. see: <https://github.com/austenstone/project-update>'
+        description: 'Comma separated field names will update it after add issue to project.'
         required: false
         type: string
       field-values:
-        description: 'Comma separated values will update it after add issue to project. see: <https://github.com/austenstone/project-update>'
+        description: 'Comma separated values will update it after add issue to project.'
         required: false
         type: string
       add-labels:
-        description: 'Labels to add to an issue, seperated by commas. see: <https://github.com/andymckay/labeler>'
+        description: 'Labels to add to an issue, seperated by commas.'
         required: false
         type: string
     secrets:
@@ -39,13 +39,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Add to project
-        uses: monry/actions-add-issue-to-project@v1
+        uses: actions/add-to-project@a9f041ddd462ed185893ea1024cec954f50dbe42
         id: add-to-project
         with:
+          project-url: "https://github.com/orgs/${{ inputs.project-owner-user || inputs.project-owner-org }}/projects/${{ inputs.project-number }}"
           github-token: ${{ secrets.github-token }}
-          project-owner: ${{ inputs.project-owner-user || inputs.project-owner-org }}
-          project-number: ${{ inputs.project-number }}
-          issue-id: ${{ github.event.issue.node_id }}
 
       - name: Update fields
         if: inputs.field-names
