@@ -37,24 +37,24 @@ jobs:
   set-project:
     name: Set project
     runs-on: ubuntu-latest
+    env:
+      project_url: "https://github.com/orgs/${{ inputs.project-owner-user || inputs.project-owner-org }}/projects/${{ inputs.project-number }}"
     steps:
       - name: Add to project
         uses: actions/add-to-project@a9f041ddd462ed185893ea1024cec954f50dbe42
         id: add-to-project
         with:
-          project-url: "https://github.com/orgs/${{ inputs.project-owner-user || inputs.project-owner-org }}/projects/${{ inputs.project-number }}"
+          project-url: ${{ env.project_url }}
           github-token: ${{ secrets.github-token }}
 
       - name: Update fields
         if: inputs.field-names
-        uses: austenstone/project-update@4907e91605c4dce3b83aa49301b6a1324d22cbfd
+        uses: titoportas/update-project-fields@421a54430b3cdc9eefd8f14f9ce0142ab7678751
         with:
+          project-url: ${{ env.project_url }}
           github-token: ${{ secrets.github-token }}
-          user: ${{ inputs.project-owner-user }}
-          organization: ${{ inputs.project-owner-org }}
-          project-number: ${{ inputs.project-number }}
-          item-id: ${{ steps.add-to-project.outputs.added-project-item-id }}
-          field-names: ${{ inputs.field-names }}
+          item-id: ${{ steps.add-to-project.outputs.itemId }}
+          field-keys: ${{ inputs.field-names }}
           field-values: ${{ inputs.field-values }}
 
       - name: Add labels
