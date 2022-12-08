@@ -41,7 +41,7 @@ jobs:
       project_url: "https://github.com/orgs/${{ inputs.project-owner-user || inputs.project-owner-org }}/projects/${{ inputs.project-number }}"
     steps:
       - name: Add to project
-        uses: actions/add-to-project@a9f041ddd462ed185893ea1024cec954f50dbe42
+        uses: actions/add-to-project@960fbad431afda394cfcf8743445e741acd19e85
         id: add-to-project
         with:
           project-url: ${{ env.project_url }}
