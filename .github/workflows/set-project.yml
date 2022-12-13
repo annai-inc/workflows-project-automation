@@ -63,7 +63,7 @@ jobs:
         env:
           LABELS: ${{ inputs.add-labels }}
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.github-token }}
           script: |
             const {LABELS} = process.env
             const labels = LABELS.split(",").map(s=>s.trim())
