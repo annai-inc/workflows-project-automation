@@ -2,6 +2,9 @@
 
 GitHub Project (beta) の自動化に関するワークフローを提供します。
 
+## Notice
+- このレポジトリは外部（dependabot）が参照するため、publicのままにしてください。（privateにするとエラーになります。）
+
 ## Usage
 
 ```yaml
